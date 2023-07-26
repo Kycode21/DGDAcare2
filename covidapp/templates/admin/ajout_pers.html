@@ -1,0 +1,80 @@
+{% extends "base_admin.html" %}
+{% load static %}
+{% block content %}
+<ul class="nav nav-pills mb-3 mt-3" id="pills-tab">
+    <li class="nav-item">
+        <button class="nav-link active btn-sm" data-bs-toggle="pill" data-bs-target="#pills-ajout"  aria-controls="pills-ajout">Enregistrement</button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link btn-sm" data-bs-toggle="pill" data-bs-target="#pills-liste" aria-controls="pills-liste">Liste</button>
+    </li>
+</ul>
+<div class="tab-content">
+    {% if messages %}
+    {% for message in messages %}
+        <div class=" mt-4 alert {{message.tags}} text-center">{{message}}</div>
+    {% endfor %}
+    {% endif %} 
+    <div class="tab-pane fade show active" id="pills-ajout">
+        <form action="{% url 'ajout_pers' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-2">
+                <input type="text" class='form-control' name='nom' placeholder='Nom' required>
+            </div>
+            <div class="mb-2">
+                <input type="text" class='form-control' name='postnom' placeholder='Postnom' required>
+            </div>
+            <div class="mb-2">
+                <input type="text" class='form-control' name='prenom' placeholder='Prénom' reqruired>
+            </div>
+            <div class="mb-2">
+                <input type="email" class='form-control' name='email' placeholder='Compte Gmail' required>
+            </div>
+            <div class="mb-2">
+                <label for="" class='form-label'>Hopital</label>
+                <select name="hopital" class='form-select' reqruired>
+                    {% for hopital in hopitals %}
+                        <option value="{{hopital.id}}">{{hopital.nom}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="photo" class='form-label'>Photo</label>
+                <input type="file" class='form-control' name='photo' id='photo' accept=".jpg, .png, .svg, .gif, .apng, .avif, .jpeg, .webp" required>
+            </div>
+            <button class='btn btn-primary' type='submit'>Enregistrer</button>
+        </form>
+    </div>
+    <div class="tab-pane fade" id="pills-liste" role="tabpanel">
+        <div class="container">
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead>
+                        <tr>
+                            <th scope='col'>Photo</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Postnom</th>
+                            <th scope="col">Prénom</th>
+                            <th scope="col">Hopital</th>
+                            <th scope="col" colspan='2'>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for personnel in personnels %}
+                            <tr>
+                                <td><img src="{{personnel.id_user.photo.url}}" class='rounded-circle' width="30" height="30"></td>
+                                <td>{{personnel.id_user.username | capfirst}}</td>
+                                <td>{{personnel.id_user.first_name}}</td>
+                                <td>{{personnel.id_user.last_name}}</td>
+                                <td>{{personnel.id_hopital}}</td>
+                                <td><a href="{% url 'update_pers' personnel.id_user.id %}" class='btn btn-primary btn-sm float-end'>Modifier</a></td>
+                                <td><a href="{% url 'delete_pers' personnel.id_user.id %}" class='btn btn-danger btn-sm'>Supprimer</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends "base_personnel.html" %}
+{% load static %}
+{% block content %}
+<div class="container mb-3">
+    <p class='border-bottom p-1 mb-1'>Nom : {{patient.id_user.username}}</p>
+    <p class='border-bottom p-1 mb-1'>Postnom : {{patient.id_user.first_name}}</p>
+    <p class='border-bottom p-1 mb-1'>Prénom : {{patient.id_user.last_name}}</p>
+    <p class='border-bottom p-1 mb-1'>Age : {{patient.age}} ans</p>
+</div>
+<div class="container mt-2">
+    <a href="{% url 'test_negatif' patient.id_user.id %}" class="btn btn-primary">Test négatif</a>
+    <a href="{% url 'test_positif' patient.id_user.id %}"  class="btn btn-danger">Test positif</a>
+</div>
+{% endblock content %}  

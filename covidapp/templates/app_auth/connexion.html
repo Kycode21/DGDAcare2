@@ -1,0 +1,60 @@
+{% load static %}
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="{% static 'images/img-icon.png' %}" type="image/x-icon">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+  <title>Connexion</title>
+  <style>
+    body {
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+      background-image: url("{% static 'images/wave.svg' %}");
+      background-position: bottom;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .user {
+      height: 80px;
+      width: 80px;
+    }
+  </style>
+</head>
+<body>
+  <div class="p-2">
+    <a href="{% url 'home' %}"><i class="bi bi-house-door"></i></a>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="{% static 'images/connexion.png' %}" class="img-fluid">
+      </div>
+      <div class="col-md-6 p-4">
+          <div class="d-flex justify-content-center mb-5">
+            <img src="{% static 'images/user_icon.png' %}" class="img-fluid user" />
+          </div>
+          {% if messages %}
+          {% for message in messages %}
+            <div class="alert {{message.tags}} text-center">{{message}}</div>
+          {% endfor %}
+          {% endif %}
+        <form action="{% url 'connexion' %}" method="POST">
+          {% csrf_token %}
+          <div class="mb-3">
+            <input type="text" class="form-control" name="nom" placeholder="Nom" required>
+          </div>
+          <div class="mb-4">
+            <input type="password" class="form-control" name="motdepasse" placeholder="Mot de passe" minlength="5" maxlength="5"required>
+          </div>
+          <button class="btn btn-primary w-100" type="submit">Se connecter</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

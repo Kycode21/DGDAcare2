@@ -1,0 +1,11 @@
+{% extends "base_patient.html" %}
+{% load static %}
+{% block content %}
+    {% for object in prescriptions %}
+        <div class="container mb-2 mt-3">
+            <p class='border-bottom p-1 mb-1'>Médicament : {{object.medicament}}</p>
+            <p class='border-bottom p-1 mb-1'>Quantité: {{object.quantite}}</p>
+            <p class='border-bottom p-1 mb-1'>Posologie: {{object.posologie}}</p>
+        </div>
+    {% endfor %}
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends "base_personnel.html" %}
+{% load static %}
+{% block content %}
+<form action="" method="post">
+  {% csrf_token %}
+  <div class="mb-2">
+    <input type="text" class='form-control' name='motif' id='motif' placeholder='Motif' value="{{rdv.motif}}" required>
+  </div>
+  <div class="mb-3">
+    <label for="daterend" class='form-label'>Date</label>
+    <input type="date" class='form-control' name='daterend' id='daterend' required>
+  </div>
+  <button class='btn btn-primary' type='submit'>Sauvegarder</button>
+</form>
+{% endblock content %}  

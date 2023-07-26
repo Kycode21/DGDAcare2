@@ -1,0 +1,11 @@
+{% extends "base_patient.html" %}
+{% load static %}
+{% block content %}
+    {% for rdv in rendez_vous %}
+        <div class="container border-bottom mt-2">
+            <p class='p-1 mb-1 p-date'>{{rdv.date_rdv}}</p>
+            <p class='p-1 mb-1'>Motif : {{rdv.motif}}</p>
+            <p class='p-1 mb-1'>Statut : {{rdv.statut}}</p>
+        </div>
+    {% endfor %}
+{% endblock content %}

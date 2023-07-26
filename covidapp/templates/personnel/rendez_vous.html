@@ -1,0 +1,56 @@
+{% extends "base_personnel.html" %}
+{% load static %}
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+<div class=" mt-4 alert {{message.tags}} text-center">{{message}}</div>
+{% endfor %}
+{% endif %}
+<form action="" method="post">
+  {% csrf_token %}
+  <div class="mb-2">
+    <label for="patient" class='form-label'>Patient</label>
+    <select name="patient" id="patient" class='form-control' required>
+      {% for patient in patient_contamines %}
+        <option value="{{patient.id_user.id}}">{{patient.id_user.username | capfirst}} {{patient.id_user.first_name}} {{patient.id_user.last_name}}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="mb-2">
+    <input type="text" class='form-control' name='motif' id='motif' placeholder='Motif' required>
+  </div>
+  <div class="mb-3">
+    <label for="daterend" class='form-label'>Date</label>
+    <input type="date" class='form-control' name='daterend' id='daterend' required>
+  </div>
+  <button class='btn btn-primary' type='submit'>Enregistrer</button>
+</form>
+<div class="table-responsive">
+  <table class="table table-sm table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Photo</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Postnom</th>
+        <th scope="col">Prénom</th>
+        <th scope="col">Date</th>
+        <th scope="col"colspan = "3">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for patient in rendez_vous %}
+        <tr>
+          <td><img src="{{patient.id_patient.id_user.photo.url}}" width="29" height="29" class="rounded-circle"></td>
+          <td>{{patient.id_patient.id_user.username | capfirst}}</td>
+          <td>{{patient.id_patient.id_user.first_name}}</td>
+          <td>{{patient.id_patient.id_user.last_name}}</td>
+          <td>{{patient.date_rdv}}</td>
+          <td><a href="{% url 'update_rdv' patient.id %}" class='btn btn-primary btn-sm'>Modifier</a></td>
+          <td><a href="{% url 'annuler_rdv' patient.id %}" class='btn btn-danger btn-sm'>Annuler</a></td>
+          <td><a href="{% url 'effectuer_rdv' patient.id %}" class='btn btn-primary btn-sm'>Effectuer</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock content %}  

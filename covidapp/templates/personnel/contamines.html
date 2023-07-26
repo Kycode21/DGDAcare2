@@ -1,0 +1,62 @@
+{% extends "base_personnel.html" %}
+{% load static %}
+{% block content %}
+<ul class="nav nav-pills mb-3" id="pills-tab">
+    <li class="nav-item">
+        <button class="nav-link active btn-sm" data-bs-toggle="pill" data-bs-target="#pills-perso"  aria-controls="pills-perso">Informations personnelles</button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link btn-sm" data-bs-toggle="pill" data-bs-target="#pills-antecedent" aria-controls="pills-antecedent">Antécédents</button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link btn-sm" data-bs-toggle="pill" data-bs-target="#pills-consultation" aria-controls="pills-consultation">Consultations</button>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="pills-perso">
+        <div class="container mb-3">
+            <p class='border-bottom p-1 mb-1'>Nom : {{patient.id_user.username}}</p>
+            <p class='border-bottom p-1 mb-1'>Postnom : {{patient.id_user.first_name}}</p>
+            <p class='border-bottom p-1 mb-1'>Prénom : {{patient.id_user.last_name}}</p>
+            <p class='border-bottom p-1 mb-1'>Age : {{patient.age}} ans</p>
+        </div>
+        <div class="container mt-2">
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <a href="{% url 'test_negatif' patient.id_user.id %}" class="btn btn-primary">Testé négatif</a>
+                <a href="{% url 'deces' patient.id_user.id  %}"  class="btn btn-danger">Déclaré Décédé</a>
+                <a href="{% url 'gueri' patient.id_user.id  %}"  class="btn btn-primary">Déclaré guéri</a>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-antecedent" role="tabpanel">
+        <div class="container">
+            {% for object in antecedents %}
+                <p class='border-bottom p-1 mb-1'>{{object.nom | capfirst}}</p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-consultation" role="tabpanel">
+        {% for object in consultations %}
+            <div class='mb-3'>
+            <p class='p-date mt-3 mb-1'>Date : {{object.date}}</p>
+            <div class="container">
+                <p class='border-bottom p-1 mb-1'>Température : {{object.temperature}} °C</p>
+                <p class='border-bottom p-1 mb-1'>Saturation oxygéne : {{object.sat_oxyg}} %</p>
+                <p class='border-bottom p-1 mb-1'>Fréquence respiratoire : {{object.freq_resp}} %</p>
+            </div>
+        {% endfor %}
+        <form action="" method='post'>
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="hopital" class='form-label'>Transfert</label>
+                <select name="hopital" id="hopital" class='form-select' required>
+                    {% for hopital in hopitals %}
+                        <option value="{{hopital.id}}">{{hopital.nom | capfirst}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class='btn btn-primary' type='submit'>Transférer</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}  

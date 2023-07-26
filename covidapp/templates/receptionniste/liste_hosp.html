@@ -1,0 +1,32 @@
+{% extends "base_receptionniste.html" %}
+{% load static %}
+{% block content %}
+<div class="table-responsive">
+  <table class="table table-sm table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Photo</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Postnom</th>
+        <th scope="col">Prénom</th>
+        <th scope="col">Date entrée</th>
+        <th scope="col">Date sortie</th>
+        <th scope="col">Statut</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for object in hospitalisations %}
+        <tr>
+          <td><img src="{{object.id_patient.id_user.photo.url}}" width="29" height="29" class="rounded-circle"></td>
+          <td>{{object.id_patient.id_user.username | capfirst  }}</td>
+          <td>{{object.id_patient.id_user.first_name}}</td>
+          <td>{{object.id_patient.id_user.last_name}}</td>
+          <td>{{object.date_ent}}</td>
+          <td>{{object.date_sort}}</td>
+          <td>{{object.statut | capfirst}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock content %}

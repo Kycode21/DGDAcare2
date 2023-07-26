@@ -1,0 +1,80 @@
+{% extends "base_personnel.html" %}
+{% load static %}
+{% block content %}
+<ul class="nav nav-pills mb-3" id="pills-tab">
+    <li class="nav-item">
+        <button class="nav-link active btn-sm" data-bs-toggle="pill" data-bs-target="#pills-suspects"  aria-controls="pills-suspects">Suspects</button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link btn-sm" data-bs-toggle="pill" data-bs-target="#pills-profile" aria-controls="pills-profile">Contaminés</button>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="pills-suspects">
+        <form action="" method="GET">
+            <div class="mb-4 d-flex">
+                <input type="search" class='form-control mx-3' name='suspect' placeholder='Effectuer une recherche'>
+                <button class='btn btn-primary'>Rechercher</button>
+            </div>
+        </form>
+        <div class="table-responsive">
+            <table class="table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Photo</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Postnom</th>
+                        <th scope="col">Prénom</th>
+                        <th scope='col'>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for suspect in patient_suspects %}
+                        <tr>
+                            <td><img src="{{suspect.id_user.photo.url}}" width="29" height="29" class="rounded-circle">
+                            </td>
+                            <td>{{suspect.id_user.username | capfirst}}</td>
+                            <td>{{suspect.id_user.first_name}}</td>
+                            <td>{{suspect.id_user.last_name}}</td>
+                            <td><a href="{% url 'suspect' suspect.id_user.id %}" class='btn btn-primary btn-sm'>Consulter <i class="bi bi-journals"></i></a></td>
+                        </tr>   
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-profile" role="tabpanel">
+        <form action="" method="GET">
+            <div class="mb-4 d-flex">
+                <input type="search" class='form-control mx-3'  name='contamines' placeholder='Effectuer une recherche'>
+                <button class='btn btn-primary'>Rechercher</button>
+            </div>
+        </form>
+        <div class="table-responsive">
+            <table class="table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Photo</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Postnom</th>
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contamine in patient_contamines %}
+                        <tr>
+                            <td><img src="{{contamine.id_user.photo.url}}" width="29" height="29" class="rounded-circle">
+                            </td>
+                            <td>{{contamine.id_user.username | capfirst}}</td>
+                            <td>{{contamine.id_user.first_name}}</td>
+                            <td>{{contamine.id_user.last_name}}</td>
+                            <td><a href="{% url 'contamines' contamine.id_user.id %}" class='btn btn-primary btn-sm'>Consulter <i class="bi bi-journals"></i></a></td>
+                        </tr>   
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}  

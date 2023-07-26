@@ -1,0 +1,25 @@
+{% extends "base_patient.html" %}
+{% load static %}
+{% block content %}
+<div class="space-img mt-4 d-flex align-items-end">
+    <div class="container">
+        <div class="row case">
+            <div class="col-4">
+                <img src="{{user.photo.url}}" class='rounded-circle img-compte' width="80" height="80">
+            </div>
+            <div class="col text">
+               <p class='mb-0'>{{user.username | capfirst}} {{user.first_name}}</p>
+               <p class='sous-name'>Patient</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <p class='border-bottom p-1 mb-1'>Nom : {{patient.id_user.username}}</p>
+    <p class='border-bottom p-1 mb-1'>Postnom : {{patient.id_user.first_name}}</p>
+    <p class='border-bottom p-1 mb-1'>Prénom : {{patient.id_user.last_name}}</p>
+    <p class='border-bottom p-1 mb-1'>Compte Gmail: {{patient.id_user.email}}</p>
+    <p class='border-bottom p-1 mb-1'>Age : {{patient.age}} ans</p>
+    <p class='border-bottom p-1 mb-1'>Commune : {{patient.id_commune}}</p>
+</div>
+{% endblock content %}

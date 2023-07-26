@@ -1,0 +1,75 @@
+{% load static %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'images/img-icon.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <script src="{% static 'js/jQuery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/chart.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+    
+    <title>{{title}}</title>
+</head>
+<body>
+   <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0  fs-6 px-3" href="{% url 'dashboard' %}"><i class="bi bi-shield-check"></i>  Covid <span class="color-app">App</span></a>
+        <button class="navbar-toggler position-absolute d-md-none" type="button" data-bs-toggle="collapse"data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link {% if title == 'Tableau de bord' %}active{% endif %}" href="{% url 'dashboard' %}">
+                                <i class="bi bi-speedometer2"></i>
+                                Tableau de bord
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if title == 'Hopital' %}active{% endif %}" href="{% url 'ajout_hopital' %}">
+                                <i class="bi bi-hospital"></i>
+                                Hopital
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if title == 'Réceptionniste' %}active{% endif %}" href="{% url 'ajout_recept' %}">
+                                <i class="bi bi-person"></i>
+                                Réceptionniste
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if title == 'PersonnelMedical' %}active{% endif %}" href="{% url 'ajout_pers' %}">
+                                <i class="bi bi-person"></i>
+                                Personnel médical
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if title == 'Mon compte' %}active{% endif %}" href="{% url 'compte_admin' %}">
+                                <i class="bi bi-house"></i>
+                                Mon compte
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'deconnexion' %}">
+                                <i class="bi bi-box-arrow-left"></i>
+                                Déconnexion
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">                
+                {% block content %}{% endblock content %}  
+            </main>
+        </div>
+    </div>
+</body>
+</html>

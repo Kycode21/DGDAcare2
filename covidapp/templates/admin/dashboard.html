@@ -1,0 +1,285 @@
+{% extends "base_admin.html" %}
+{% block content %}
+<div class='d-flex border-bottom mb-3 mt-3 justify-content-between'>
+    <div class='d-flex'>
+        <div class="led mb-2"></div>
+        <p class='mb-1'>{{now|capfirst}}</p>
+    </div>
+</div>
+<div class="container mb-3">
+    <div class="row">
+        <div class="col-md-3 p-1 mb-1">
+            <div class="d-flex justify-content-between p-2 dash">
+                 <div>
+                    <p class="text-white mb-1">Cumul</p>
+                    <p class="text-white mb-1">{{cumul}}</p>
+                </div>
+                <div>
+                    <i class="bi bi-person dash-bi"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 p-1 mb-1">
+            <div class="d-flex justify-content-between p-2 dash">
+                <div>
+                    <p class="text-white mb-1">Positifs</p>
+                    <p class="text-white mb-1">{{positif}}</p>
+                </div>
+                <div>
+                    <i class="bi bi-person-plus dash-bi"></i>
+                 </div>
+            </div>
+        </div>
+        <div class="col-md-3 p-1 mb-1">
+            <div class="d-flex justify-content-between p-2 dash">
+                <div>
+                    <p class="text-white mb-1">Guéris</p>
+                    <p class="text-white mb-1">{{guerie}}</p>
+                 </div>
+                <div>
+                    <i class="bi bi-person-check dash-bi"></i>
+                </div>
+             </div>
+        </div>
+        <div class="col-md-3 p-1 mb-1">
+            <div class="d-flex justify-content-between p-2 dash">
+                <div>
+                    <p class="text-white mb-1">Décès</p>
+                    <p class="text-white mb-1">{{deces}}</p>
+                </div>
+                <div>
+                    <i class="bi bi-person-x dash-bi"></i>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class='mb-2'>
+                <div class="d-flex justify-content-between">
+                     <p>Taux de positivité</p>
+                     <p class="taux" data-target='{{taux_positivite}}'></p>
+                </div>
+                 <div class="progress" style="height: 7px;">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width:{{taux_positivite}}%;"></div>
+                </div>
+            </div>
+            <div>
+                <div class="d-flex justify-content-between">
+                     <p>Taux d'hospitalisation</p>
+                     <p class="taux" data-target='{{taux_hospitalisation}}'></p>
+                </div>
+                 <div class="progress" style="height: 7px;">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width:{{taux_hospitalisation}}%;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between p-2 dash">
+                        <div>
+                            <p class="text-white">Test</p>
+                            <p class="text-white mb-1">{{positif_negatif}}</p>
+                        </div>
+                        <div>
+                            <i class="bi bi-person dash-bi"></i>
+                        </div>
+                     </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between p-2 dash">
+                        <div>
+                            <p class="text-white">Hospitalisation</p>
+                            <p class="text-white mb-1">{{hospitalise}}</p>
+                        </div>
+                        <div>
+                            <i class="bi bi-hospital dash-bi"></i>
+                        </div>
+                     </div>
+                </div>
+                    <div class="col-md-4">
+                    <div class="d-flex justify-content-between p-2 dash">
+                        <div>
+                            <p class="text-white">Hopitaux</p>
+                            <p class="text-white mb-1">{{hopital}}</p>
+                        </div>
+                        <div>
+                            <i class="bi bi-hospital dash-bi"></i>
+                        </div>
+                     </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <p>Répartition des cas positifs par commune</p>
+            <canvas id="communechart"></canvas>
+            <script>
+                var ctx = document.getElementById('communechart');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: [
+                            'Bandal', 'Barumbu', 'Bumbu', 'Gombe', 'Kalamu', 'Kasa-vubu', 'Kimbaseke', 'Kinshasa', 'Kintambo', 'Kinsenso', 'Lemba',
+                            'Limete', 'Lingwala', 'Makala', 'Maluku', 'Masina', 'Matete', 'Mont ngafula', 'Ndjili', 'Ngaba', 'Ngalieme','Ngiri-ngiri', 'Nsele', 'Selembau'
+                        ],
+                        datasets: [{
+                            data: [{{bandal}},{{barumbu}},{{bumbu}},{{gombe}},{{kalamu}},{{kasavubu}},{{kimbaseke}},{{kinshasa}},{{kintambo}},
+                            {{kinsenso}},{{lemba}},{{limete}},{{lingwala}},{{makala}},{{maluku}},{{masina}},{{matete}},{{montngafula}},{{ndjili}},
+                            {{ngaba}},{{ngaliema}},{{ngiringiri}},{{nsele}},{{selembau}}
+                            ],
+                            backgroundColor: ['#249'],
+                        }]
+                    },
+                    options: {
+                        onHover: (event, chartElement) => {
+                            event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+                        },
+                        responsive: true,
+                        indexAxis: 'y',
+                        scales: {
+                            y: {
+                                ticks: {
+                                    font: {
+                                        family: 'cursive',
+                                        weight: 'bold'
+                                    },
+                                    color: '#222',
+                                },
+                                grid: {
+                                    display: false,
+                                    drawBorder: false
+                                }
+                            },
+                            x: {
+                                display: false,
+                                ticks: {
+                                    font: {
+                                        family: 'cursive',
+                                        weight: 'bold'
+                                    },
+                                    color: '#222',
+                                },
+
+                                grid: {
+                                    display: false,
+                                    drawBorder: false
+                                }
+                            },
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+
+                        },
+                        plugins: {
+                            tooltip: {
+                                yAlign: 'bottom',
+                                displayColors: false,
+                                titleFont: {
+                                    family: 'cursive',
+                                    weight: 'bold'
+                                },
+                                bodyFont: {
+                                    family: 'cursive',
+                                    weight: 'bold'
+                                },
+
+                            },
+                            legend: {
+                                display: false,
+
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
+        <div class="col-md-6">
+            <p>Répartition des cas positifs selon une trache d'age</p>
+            <canvas id="agechart"></canvas>
+            <script>
+                var ctx = document.getElementById('agechart');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['0-9 ans', '10-19 ans', '20-29 ans', '30-39 ans', '40-49 ans', '50-59 ans', '60-69 ans', '70-79 ans', '80-89 ans', '89 ans et plus',],
+                        datasets: [{
+                            data: [{{age1}},{{age2}},{{age3}},{{age4}},{{age5}},{{age6}},{{age7}},{{age8}},{{age9}},{{age10}}],
+                            backgroundColor: ['#246'],
+                            borderRadius: 3,
+                            barPercentage: .6
+                        }]
+                    },
+                    options: {
+                        onHover: (event, chartElement) => {
+                            event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+                        },
+                        responsive: true,
+                        indexAxis: 'y',
+                        scales: {
+                            y: {
+                                ticks: {
+                                    font: {
+                                        family: 'cursive',
+                                        weight: 'bold'
+                                    },
+                                    color: '#222',
+                                },
+                                grid: {
+                                    display: false,
+                                    drawBorder: false
+                                }
+                            },
+                            x: {
+                                display: false,
+                                ticks: {
+                                    font: {
+                                        family: 'cursive',
+                                        weight: 'bold'
+                                    },
+                                    color: '#222',
+                                },
+                                grid: {
+                                    display: false,
+                                    drawBorder: false
+                                }
+                            },
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                yAlign: 'bottom',
+                                displayColors: false,
+                                titleFont: {
+                                    family: 'cursive',
+                                    weight: 'bold'
+                                },
+                                bodyFont: {
+                                    family: 'cursive',
+                                    weight: 'bold'
+                                },
+                            },
+                            legend: {
+                                display: false,
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+    

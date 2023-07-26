@@ -1,0 +1,166 @@
+body {
+    font-size: .900rem;
+}
+
+.navbar {
+    background-color: rgb(10, 21, 31) !important;
+}
+
+.navbar-brand {
+    padding-top: .70rem;
+    padding-bottom: .70rem;
+    font-size: 14px !important;
+}
+.img-profil{
+    margin-right: .7rem;
+}
+@media screen and (max-width:768px) {
+    .img-profil {
+        margin-right: 3.5rem;
+    }
+}
+
+.navbar .navbar-toggler {
+    top: .25rem;
+    right: 0.3rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 48px 0 0;
+    background-color: rgb(243, 243, 243) !important;
+}
+
+.sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: .5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.sidebar .nav-link {
+    font-weight: 500;
+    color: #333;
+    margin-left: 6px;
+}
+
+.active {
+    background-color: #2d66e2;
+    color: white !important;
+    border-radius: 7px;
+}
+.dash {
+    border-radius: 6px;
+    background-color: rgb(26, 67, 108);
+}
+.dash-bi {
+    font-size: 21px;
+    color: white;
+}
+.led {
+    height: 9px;
+    width: 9px;
+    border-radius: 30px;
+    background-color: red;
+    animation-duration: 1.5s;
+    animation-name: clignoter;
+    animation-iteration-count: infinite;
+    transition: none;
+    position: relative;
+    top: 7px;
+    right: 5px;
+}
+
+@keyframes clignoter {
+    0% {
+        opacity: 1;
+    }
+
+    40% {
+        opacity: 0.2;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+.form-control, .form-select{
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+th,
+td,
+tr {
+    font-size: 14px;
+    text-align: center;
+    border-bottom: 0;
+}
+
+th {
+    font-weight: normal;
+    background-color: rgb(213, 213, 213) !important;;
+}
+.thop{
+    height: 400px;
+    max-height: 350px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+}
+.thop:hover{
+    cursor: pointer;
+}
+.space-img {
+    height: 120px;
+    width: 100%;
+    background-image: url('/static/images/banner.jpg');
+    background-position: center;
+    border-radius: 10px;
+    margin-bottom: 100px;
+}
+.img-compte{
+    position: relative;
+    border: solid 3px rgb(255, 255, 255);
+}
+.sous-name{
+    color: rgb(89, 89, 89);
+}
+.case{
+    width: 300px;
+    position: relative;
+    top: 50px;
+    left: 30px;
+}
+.text{
+    position: relative;
+    top: 45px;
+}
+.fade{
+    background-color: white !important;
+    color: #000 !important;
+}
+.form-select{
+    font-size: 13px;
+}
+.alert{
+    height: 30px;
+    line-height: 1px;
+}
+.p-date{
+    font-weight: bold !important;
+}
+.btn{
+    font-size: 13px;
+}
+.table-responsive{
+    max-height: 400px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+}
