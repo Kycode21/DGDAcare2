@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Nouvelle Prescription</h2>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label class="form-label">Patient</label>
+            <select name="patient" class="form-control" required>
+                {% for patient in patients %}
+                    <option value="{{ patient.id }}">{{ patient.nom }} {{ patient.prenom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Type de prescription</label>
+            <select name="type_prescription" class="form-control" required>
+                <option value="medicaments">Médicaments</option>
+                <option value="soins">Soins infirmiers</option>
+                <option value="examens">Examens</option>
+                <option value="hospitalisation">Hospitalisation</option>
+                <option value="equipement">Équipement médical</option>
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="4" required></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </form>
+</div>
+{% endblock %}

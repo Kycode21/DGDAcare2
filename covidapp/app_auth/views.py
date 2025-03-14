@@ -10,25 +10,32 @@ def home(request):
 def connexion(request):
     if request.method == 'POST':
         nom = request.POST.get('nom').lower()
-        motdepasse = request.POST.get('motdepasse').lower()
+        motdepasse = request.POST.get('motdepasse')  # Sans le .lower()
+        
+        # Ajout de prints pour débugger
+        print(f"Tentative de connexion avec : {nom}")
+        
         user = authenticate(request, username=nom, password=motdepasse)
-        if user is not None and user.role == 'admin':
+        
+        if user is not None:
+            print(f"Utilisateur trouvé avec le rôle : {user.role}")
             login(request, user)
-            return redirect('dashboard')
-        elif user is not None and user.role == 'receptionniste':
-            login(request, user)
-            return redirect('ajout_patient')
-        elif user is not None and user.role == 'personnel':
-            login(request, user)
-            return redirect('suivi')
-        elif user is not None and user.role == 'patient':
-            login(request, user)
-            return redirect('docs')
+            
+            if user.role == 'admin':
+                return redirect('dashboard')
+            elif user.role == 'receptionniste':
+                return redirect('ajout_patient')
+            elif user.role == 'personnel':
+                return redirect('suivi')
+            elif user.role == 'patient':
+                return redirect('docs')
         else:
-            messages.error(request, "Informations incorrectes")
+            print("Authentification échouée")
+            messages.error(request, "Nom d'utilisateur ou mot de passe incorrect")
+            
     return render(request, 'app_auth/connexion.html')
 
-
+    
 def deconnexion(request):
     logout(request)
     return redirect('connexion')

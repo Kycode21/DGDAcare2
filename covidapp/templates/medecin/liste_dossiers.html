@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ title }}</h2>
+    
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Date</th>
+                    <th>Température</th>
+                    <th>Saturation O2</th>
+                    <th>Fréq. Respiratoire</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for consultation in consultations %}
+                <tr>
+                    <td>{{ consultation.id_patient.id_user.username }}</td>
+                    <td>{{ consultation.date }}</td>
+                    <td>{{ consultation.temperature }}°C</td>
+                    <td>{{ consultation.sat_oxyg }}%</td>
+                    <td>{{ consultation.freq_resp }}</td>
+                    <td>
+                        <span class="badge {% if consultation.statut == 'en_cours' %}bg-warning{% else %}bg-success{% endif %}">
+                            {{ consultation.statut }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if consultation.statut == 'en_cours' %}
+                        <a href="{% url 'cloturer_dossier' consultation.id %}" class="btn btn-sm btn-success">
+                            Clôturer
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">Aucune consultation en cours</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

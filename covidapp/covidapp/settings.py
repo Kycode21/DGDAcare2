@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'app_auth',
     'admini',
     'Receptionniste',
-    'personnel',
+    'medecin',
     'patient',
 ]
 

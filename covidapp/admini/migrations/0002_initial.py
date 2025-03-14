@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='PersonnelMedical',
+            name='Medecin',
             fields=[
                 ('id_user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
                 ('id_hopital', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='admini.hopital')),

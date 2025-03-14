@@ -12,8 +12,8 @@ class Receptionniste(models.Model):
     def __str__(self):
         return self.id_user.username
 
-class PersonnelMedical(models.Model):
+class Medecin(models.Model):
     id_user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     id_hopital = models.ForeignKey(Hopital, on_delete=models.CASCADE)
     def __str__(self):
-        return self.id_user.username
+        return f"Dr. {self.id_user.username}"

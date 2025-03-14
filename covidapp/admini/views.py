@@ -4,6 +4,7 @@ from .models import *
 from django.contrib import messages
 from covidapp import settings
 from django.core.mail import send_mail
+from medecin.models import *
 
 
 def ajout_hopital(request):
@@ -80,7 +81,7 @@ def ajout_recept(request):
                 if user is not None:
                     messages.success(
                         request, "Réceptionniste ajouté avec succés")
-                    sujet = "Bienvenu dans CovidApp, une App pour gérer les patients"
+                    sujet = "Bienvenu dans DGDAcare, votre application de gestion des patients."
                     message = "Nom d'utilisateur : " + nom + "\n" + "Mot de passe : " + motdepasse
                     expediteur = settings.EMAIL_HOST_USER
                     destinateur = [email]
@@ -141,9 +142,9 @@ def delete_recept(request, id):
 
 def ajout_pers(request):
     if request.user.is_authenticated:
-        title = 'PersonnelMedical'
+        title = 'MedecinMedical'
         hopitals = Hopital.objects.all()
-        personnels = PersonnelMedical.objects.all().order_by('id_user__username')
+        Medecins = MedecinMedical.objects.all().order_by('id_user__username')
         if request.method == 'POST':
             nom = request.POST.get('nom').lower()
             postnom = request.POST.get('postnom').lower()
@@ -151,7 +152,7 @@ def ajout_pers(request):
             email = request.POST.get('email')
             photo = request.FILES.get('photo')
             motdepasse = generate_password()
-            role = 'personnel'
+            role = 'Medecin'
             print(motdepasse)
             if User.objects.filter(email=email):
                 messages.error(
@@ -161,11 +162,11 @@ def ajout_pers(request):
                     username=nom, first_name=postnom, last_name=prenom, email=email, password=motdepasse, photo=photo, role=role)
                 hopital = int(request.POST.get('hopital'))
                 id_hopital = Hopital.objects.get(id=hopital)
-                PersonnelMedical.objects.create(
+                MedecinMedical.objects.create(
                     id_user=user, id_hopital=id_hopital)
                 if user is not None:
                     messages.success(
-                        request, "Personnel médical ajouté avec succés")
+                        request, "Medecin médical ajouté avec succés")
                     sujet = "Bienvenu dans CovidApp, une App pour gérer les patients"
                     message = "Nom d'utilisateur : " + nom + "\n" + "Mot de passe : " + motdepasse
                     expediteur = settings.EMAIL_HOST_USER
@@ -175,7 +176,7 @@ def ajout_pers(request):
         return render(request, 'admin/ajout_pers.html', {
             'title': title,
             'hopitals': hopitals,
-            'personnels': personnels,
+            'Medecins': Medecins,
         })
     else:
         return redirect('connexion')
@@ -184,7 +185,7 @@ def ajout_pers(request):
 def update_pers(request, id):
     if request.user.is_authenticated:
         user = get_object_or_404(User, id=id)
-        title = 'PersonnelMedical'
+        title = 'MedecinMedical'
         hopital = Hopital.objects.all()
         if request.method == 'POST':
             nom = request.POST.get('nom').lower()
@@ -193,7 +194,7 @@ def update_pers(request, id):
             hopital = int(request.POST.get('hopital'))
             id_hopital = Hopital.objects.get(id=hopital)
             update = User.objects.get(id=id)
-            update_hopital = PersonnelMedical.objects.get(id_user__id=id)
+            update_hopital = MedecinMedical.objects.get(id_user__id=id)
             update.username = nom
             update.first_name = postnom
             update.last_name = prenom

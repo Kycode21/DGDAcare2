@@ -1,5 +1,5 @@
 from Receptionniste.models import *
-from personnel.models import *
+from medecin.models import *
 from .models import *
 from django.shortcuts import render
 from datetime import datetime

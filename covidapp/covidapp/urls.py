@@ -23,7 +23,7 @@ urlpatterns = [
     path('', include('app_auth.urls')),
     path('admini/', include('admini.urls')),
     path('receptionniste/', include('Receptionniste.urls')),
-    path('personnel/', include('personnel.urls')),
+    path('medecin/', include('medecin.urls')),
     path('patient/', include('patient.urls')),
 ]
 

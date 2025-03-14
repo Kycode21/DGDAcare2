@@ -1,51 +1,31 @@
-from django.shortcuts import render, redirect
-from Receptionniste.models import Patient
-from personnel.models import *
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from Receptionniste.models import Patient  # Supprimé DossierMedical
+from .models import Prescription, Consultation  # Ajouté Consultation
+from django.contrib import messages
+from app_auth.models import User
 
-def docs(request):
-    if request.user.is_authenticated:
-        title = 'Mon dossier'
-        id_user = request.user.id
-        patient = Patient.objects.get(id_user__id=id_user)
-        return render(request, 'patient/docs.html', {
-            'title':title,
-            'patient':patient,
-        })
-    else:
-        return redirect('connexion')
-
-def rdv(request):
-    if request.user.is_authenticated:
-        title='rendez-vous'
-        id_user = request.user.id
-        rendez_vous = Rendez_vous.objects.filter(id_patient=id_user)
-        return render(request, 'patient/rdv.html', {
-            'title':title,
-            'rendez_vous': rendez_vous,
-        })
-    else:
-        return redirect('connexion')
-
-def consult(request):
-    if request.user.is_authenticated:
-        title = 'Consultation'
-        id_user = request.user.id
-        consultations = Consultation.objects.filter(id_patient=id_user)
-        return render(request, 'patient/consult.html', {
-            'title': title,
+@login_required
+def liste_dossiers(request):
+    if request.user.role == 'medecin':
+        # Remplacer DossierMedical par Consultation
+        consultations = Consultation.objects.filter(
+            id_patient__id_medecin__id_user=request.user
+        )
+        return render(request, 'medecin/liste_dossiers.html', {
             'consultations': consultations,
+            'title': 'Consultations'
         })
-    else:
-        return redirect('connexion')
+    return redirect('connexion')
 
-def presc(request):
-    if request.user.is_authenticated:
-        title = 'Préscription'
-        id_user = request.user.id
-        prescription = Prescription.objects.filter(id_patient=id_user)
-        return render(request, 'patient/prescription.html', {
-            'title': title,
-            'prescriptions': prescription
-        })
-    else:
-        return redirect('connexion')
+@login_required
+def cloturer_dossier(request, id):
+    if request.user.role == 'medecin':
+        consultation = get_object_or_404(Consultation, id=id)
+        consultation.statut = 'terminée'  # Ajoutez ce champ dans le modèle Consultation si nécessaire
+        consultation.save()
+        messages.success(request, "Consultation clôturée avec succès")
+        return redirect('liste_dossiers')
+    return redirect('connexion')
+
+# ... le reste du fichier reste inchangé ...

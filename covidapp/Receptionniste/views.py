@@ -5,7 +5,7 @@ from admini.models import *
 from app_auth.models import User
 from django.contrib import messages
 from covidapp import settings
-from personnel.models import Hospitalisation
+from medecin.models import Consultation, Prescription    
 from django.core.mail import send_mail
 
 
